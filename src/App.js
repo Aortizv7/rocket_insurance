@@ -21,6 +21,8 @@ const App = () => {
 
   const [quoteData, setQuoteData] = useState();
 
+  // const formatedPremium = quoteData?quoteData.premium.toLocaleString(('en-US', { style: 'currency', currency: 'USD' }))
+
   const handleNameUpdate = (event) => {
     const value = event.target.value;
     setQuoteForm({
@@ -89,7 +91,7 @@ const App = () => {
       })
       .catch((error) => console.log(error));
   };
-  
+
   return (
     <div className="container">
       <div className="form">
@@ -182,7 +184,7 @@ const App = () => {
               )}
             </select>
             <button onClick={handleQuoteUpdate}>get new data</button>
-            {quoteData.premium && <div>{quoteData.premium}</div>}
+            {quoteData.premium && <div>{quoteData.premium.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>}
           </div>
         )}
       </div>
