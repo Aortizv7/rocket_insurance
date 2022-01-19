@@ -41,12 +41,23 @@ const App = () => {
     });
   };
 
+  const handleVariableSelections = (event) => {
+    const value = event.target.value;
+
+    setQuoteData({
+      ...quoteData,
+      variable_selections: {
+        ...quoteData.variable_selections,
+        [event.target.name]: Number(value),
+      },
+    });
+  };
+
   const handleFormSubmit = () => {
     axios
-      .post("https://fed-challenge-api.sure.now.sh/api/v1/quotes", quoteForm)
+      .post(`https://fed-challenge-api.sure.now.sh/api/v1/quotes`, quoteForm)
       .then((response) => {
         if (response.status === 200) {
-          console.log(response.data.quote);
           setQuoteData({ ...quoteData, ...response.data.quote });
         }
       })
@@ -65,6 +76,20 @@ const App = () => {
     // });
   };
 
+  const handleQuoteUpdate = () => {
+    axios
+      .put(
+        `https://fed-challenge-api.sure.now.sh/api/v1/quotes/${quoteData.quoteId}`,
+        { quote: quoteData }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          setQuoteData({ ...response.data.quote });
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  
   return (
     <div className="container">
       <div className="form">
@@ -140,19 +165,24 @@ const App = () => {
           <div>
             <span>{quoteData.quoteId}</span>
             <label>{quoteData.variable_options.deductible.title}</label>
-            <select>
+            <select onChange={handleVariableSelections} name="deductible">
               {quoteData.variable_options.deductible.values.map((item) => (
                 <option key={item}>{item}</option>
               ))}
             </select>
             <label>{quoteData.variable_options.asteroid_collision.title}</label>
-            <select>
+            <select
+              onChange={handleVariableSelections}
+              name="asteroid_collision"
+            >
               {quoteData.variable_options.asteroid_collision.values.map(
                 (item) => (
                   <option key={item}>{item}</option>
                 )
               )}
             </select>
+            <button onClick={handleQuoteUpdate}>get new data</button>
+            {quoteData.premium && <div>{quoteData.premium}</div>}
           </div>
         )}
       </div>
