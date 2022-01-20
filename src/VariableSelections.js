@@ -4,9 +4,8 @@ import "./App.css";
 export const VariableSelections = (props) => {
   const { quoteData, handleVariableSelections, handleQuoteUpdate } = props;
 
-  console.log("data??",quoteData)
   return (
-    <form className="content" onSubmit={(e)=>e.preventDefault()}>
+    <form className="content" onSubmit={(e) => e.preventDefault()}>
       <span>this will show the information</span>
       {quoteData && (
         <div>

@@ -67,7 +67,6 @@ const App = () => {
         }
       })
       .then(() => {
-        console.log("within nested then to set the step??");
         setCurrentStep({ currentStep: STEPS.VARIABLE_SELECTIONS });
       })
       .catch((error) => console.log(error));
@@ -86,7 +85,6 @@ const App = () => {
       })
       .catch((error) => console.log(error));
   };
-  console.log(currentStep);
   return (
     <div className="container">
       {currentStep === STEPS.QUOTE_FORM ? (

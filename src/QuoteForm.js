@@ -2,7 +2,8 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import "./App.css";
 export const QuoteForm = (props) => {
-  const { quoteForm, handleAddressUpdate, handleFormSubmit, handleNameUpdate } = props;
+  const { quoteForm, handleAddressUpdate, handleFormSubmit, handleNameUpdate } =
+    props;
 
   return (
     <form className="content" onSubmit={(e) => e.preventDefault()}>
