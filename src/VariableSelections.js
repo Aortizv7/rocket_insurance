@@ -1,6 +1,6 @@
 import React from "react";
 import { PropTypes } from "prop-types";
-import "./App.css";
+
 export const VariableSelections = (props) => {
   const { quoteData, handleVariableSelections, handleQuoteUpdate } = props;
 
