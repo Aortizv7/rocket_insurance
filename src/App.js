@@ -1,12 +1,17 @@
 import "./App.css";
 import React, { useState } from "react";
 import axios from "axios";
-
-//this app will have multiple steps, we need a form to submit the body in order to be able to request a quote
-// second thing is to show the drop down menu view to update the quote all while maintaining state
-//how to manage state? (redux/reduxify within the parent? )
+import { QuoteForm } from "./QuoteForm";
+import { VariableSelections } from "./VariableSelections";
 
 const App = () => {
+  const STEPS = {
+    QUOTE_FORM: 0,
+    VARIABLE_SELECTIONS: 1,
+  };
+
+  const [currentStep, setCurrentStep] = useState(STEPS.QUOTE_FORM);
+
   const [quoteForm, setQuoteForm] = useState({
     first_name: "",
     last_name: "",
@@ -20,8 +25,6 @@ const App = () => {
   });
 
   const [quoteData, setQuoteData] = useState();
-
-  // const formatedPremium = quoteData?quoteData.premium.toLocaleString(('en-US', { style: 'currency', currency: 'USD' }))
 
   const handleNameUpdate = (event) => {
     const value = event.target.value;
@@ -55,7 +58,7 @@ const App = () => {
     });
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = (event) => {
     axios
       .post(`https://fed-challenge-api.sure.now.sh/api/v1/quotes`, quoteForm)
       .then((response) => {
@@ -63,22 +66,14 @@ const App = () => {
           setQuoteData({ ...quoteData, ...response.data.quote });
         }
       })
+      .then(() => {
+        console.log("within nested then to set the step??");
+        setCurrentStep({ currentStep: STEPS.VARIABLE_SELECTIONS });
+      })
       .catch((error) => console.log(error));
-
-    // setQuoteForm({
-    //   first_name: "",
-    //   last_name: "",
-    //   address: {
-    //     line_1: "",
-    //     line_2: "",
-    //     city: "",
-    //     region: "",
-    //     postal: "",
-    //   },
-    // });
   };
 
-  const handleQuoteUpdate = () => {
+  const handleQuoteUpdate = (event) => {
     axios
       .put(
         `https://fed-challenge-api.sure.now.sh/api/v1/quotes/${quoteData.quoteId}`,
@@ -91,103 +86,23 @@ const App = () => {
       })
       .catch((error) => console.log(error));
   };
-
+  console.log(currentStep);
   return (
     <div className="container">
-      <div className="form">
-        <label>
-          First Name
-          <input
-            type="text"
-            name="first_name"
-            value={quoteForm.first_name}
-            onChange={handleNameUpdate}
-          />
-        </label>
-        <label>
-          Last Name
-          <input
-            type="text"
-            name="last_name"
-            value={quoteForm.last_name}
-            onChange={handleNameUpdate}
-          />
-        </label>
-        <span>Address</span>
-        <label>
-          Line 1
-          <input
-            type="text"
-            name="line_1"
-            value={quoteForm.address.line_1}
-            onChange={handleAddressUpdate}
-          />
-        </label>
-        <label>
-          Line 2
-          <input
-            type="text"
-            name="line_2"
-            value={quoteForm.address.line_2}
-            onChange={handleAddressUpdate}
-          />
-        </label>
-        <label>
-          City
-          <input
-            type="text"
-            name="city"
-            value={quoteForm.address.city}
-            onChange={handleAddressUpdate}
-          />
-        </label>
-        <label>
-          Region
-          <input
-            type="text"
-            name="region"
-            value={quoteForm.address.region}
-            onChange={handleAddressUpdate}
-          />
-        </label>
-        <label>
-          Postal Code
-          <input
-            type="text"
-            name="postal"
-            value={quoteForm.address.postal}
-            onChange={handleAddressUpdate}
-          />
-        </label>
-        <button onClick={handleFormSubmit}>get free quote</button>
-      </div>
-      <div className="form">
-        <span>this will show the information</span>
-        {quoteData && (
-          <div>
-            <span>{quoteData.quoteId}</span>
-            <label>{quoteData.variable_options.deductible.title}</label>
-            <select onChange={handleVariableSelections} name="deductible">
-              {quoteData.variable_options.deductible.values.map((item) => (
-                <option key={item}>{item}</option>
-              ))}
-            </select>
-            <label>{quoteData.variable_options.asteroid_collision.title}</label>
-            <select
-              onChange={handleVariableSelections}
-              name="asteroid_collision"
-            >
-              {quoteData.variable_options.asteroid_collision.values.map(
-                (item) => (
-                  <option key={item}>{item}</option>
-                )
-              )}
-            </select>
-            <button onClick={handleQuoteUpdate}>get new data</button>
-            {quoteData.premium && <div>{quoteData.premium.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</div>}
-          </div>
-        )}
-      </div>
+      {currentStep === STEPS.QUOTE_FORM ? (
+        <QuoteForm
+          quoteForm={quoteForm}
+          handleFormSubmit={handleFormSubmit}
+          handleAddressUpdate={handleAddressUpdate}
+          handleNameUpdate={handleNameUpdate}
+        />
+      ) : (
+        <VariableSelections
+          quoteData={quoteData}
+          handleVariableSelections={handleVariableSelections}
+          handleQuoteUpdate={handleQuoteUpdate}
+        />
+      )}
     </div>
   );
 };
