@@ -4,6 +4,7 @@ Simple multi-view app to receive free premium estimates with rocket insurance
 * Built using React
 * Leverages Sure App's api
 * Hosted through AWS Amplify
+* Used https://coolors.co/044389-f5a300-6ca0ef-fffbff-b63e46 to help generate a color scheme
 
 # How to use 
 
