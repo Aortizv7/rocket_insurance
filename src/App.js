@@ -85,6 +85,21 @@ const App = () => {
       })
       .catch((error) => console.log(error));
   };
+
+  const clearForm = () => {
+    setQuoteForm({
+      first_name: "",
+      last_name: "",
+      address: {
+        line_1: "",
+        line_2: "",
+        city: "",
+        region: "",
+        postal: "",
+      },
+    });
+  };
+
   return (
     <div className="container">
       {currentStep === STEPS.QUOTE_FORM ? (
@@ -93,6 +108,7 @@ const App = () => {
           handleFormSubmit={handleFormSubmit}
           handleAddressUpdate={handleAddressUpdate}
           handleNameUpdate={handleNameUpdate}
+          onClearForm={clearForm}
         />
       ) : (
         <VariableSelections

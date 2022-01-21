@@ -6,35 +6,46 @@ export const VariableSelections = (props) => {
 
   return (
     <form className="content" onSubmit={(e) => e.preventDefault()}>
-      <span>this will show the information</span>
-      {quoteData && (
-        <div>
-          <span>{quoteData.quoteId}</span>
-          <label>{quoteData.variable_options.deductible.title}</label>
-          <select onChange={handleVariableSelections} name="deductible">
-            {quoteData.variable_options.deductible.values.map((item) => (
-              <option key={item}>{item}</option>
-            ))}
-          </select>
-          <label>{quoteData.variable_options.asteroid_collision.title}</label>
-          <select onChange={handleVariableSelections} name="asteroid_collision">
-            {quoteData.variable_options.asteroid_collision.values.map(
-              (item) => (
+        <span>
+          Select from different options below to calculate your premium
+        </span>
+        {quoteData && (
+          <div className="variableSelectionContent">
+            <label>{quoteData.variable_options.deductible.title}</label>
+            <select
+              className="dropDown"
+              onChange={handleVariableSelections}
+              name="deductible"
+            >
+              {quoteData.variable_options.deductible.values.map((item) => (
                 <option key={item}>{item}</option>
-              )
+              ))}
+            </select>
+            <label>{quoteData.variable_options.asteroid_collision.title}</label>
+            <select
+              className="dropDown"
+              onChange={handleVariableSelections}
+              name="asteroid_collision"
+            >
+              {quoteData.variable_options.asteroid_collision.values.map(
+                (item) => (
+                  <option key={item}>{item}</option>
+                )
+              )}
+            </select>
+            <button className="button" onClick={handleQuoteUpdate}>
+              Calculate Premium
+            </button>
+            {quoteData.premium && (
+              <div className="premium">
+                {quoteData.premium.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
+              </div>
             )}
-          </select>
-          <button onClick={handleQuoteUpdate}>get new data</button>
-          {quoteData.premium && (
-            <div>
-              {quoteData.premium.toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
-              })}
-            </div>
-          )}
-        </div>
-      )}
+          </div>
+        )}
     </form>
   );
 };
