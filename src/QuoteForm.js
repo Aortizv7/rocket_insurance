@@ -22,6 +22,7 @@ export const QuoteForm = (props) => {
             name="first_name"
             value={quoteForm.first_name}
             onChange={handleNameUpdate}
+            required
           />
         </label>
         <label>
@@ -32,6 +33,7 @@ export const QuoteForm = (props) => {
             name="last_name"
             value={quoteForm.last_name}
             onChange={handleNameUpdate}
+            required
           />
         </label>
         <span>Address:</span>
@@ -43,6 +45,7 @@ export const QuoteForm = (props) => {
             name="line_1"
             value={quoteForm.address.line_1}
             onChange={handleAddressUpdate}
+            required
           />
         </label>
         <label>
@@ -63,6 +66,7 @@ export const QuoteForm = (props) => {
             name="city"
             value={quoteForm.address.city}
             onChange={handleAddressUpdate}
+            required
           />
         </label>
         <label>
@@ -73,6 +77,7 @@ export const QuoteForm = (props) => {
             name="region"
             value={quoteForm.address.region}
             onChange={handleAddressUpdate}
+            required
           />
         </label>
         <label>
@@ -83,6 +88,7 @@ export const QuoteForm = (props) => {
             name="postal"
             value={quoteForm.address.postal}
             onChange={handleAddressUpdate}
+            required
           />
         </label>
       </div>
