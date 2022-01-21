@@ -8,7 +8,9 @@ Simple multi-view app to receive free premium estimates with rocket insurance
 
 # How to use 
 
-Clone and install the app `npm install`, and run the start script `npm start`
+Clone and install `npm install`, and run the start script `npm start`
+
+**Note** to view source code go into the `master` branch
 
 # Hosted application 
 Skip the installation and view the hosted application here https://master.d1laiy2l6xsi01.amplifyapp.com/
